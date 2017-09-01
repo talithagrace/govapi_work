@@ -1,5 +1,5 @@
 import requests, bs4, re, html5lib, lxml
-
+"""
 # http://www.legislation.gov.uk/id?title={title}&type={type}&year={year}&number={number}
 # http://www.legislation.gov.uk/id?title=immigration
 # https://www.gov.uk/government/publications?publication_filter_option=consultations
@@ -7,8 +7,7 @@ import requests, bs4, re, html5lib, lxml
 # https://www.gov.uk/government/publications.atom?publication_filter_option=consultations&keywords=immigration
 # the above '.atom' link is rss feed from the publications page
 
-"""this prints the links of all the search results with specific prefix
-as seen within the brackets after compile. regular expression used
+this prints links from the search results from the above websites
 """
 
 def legislation_search():
@@ -23,9 +22,8 @@ def legislation_search():
     print(type(search_results_1))
 
     for link in search_results_1.find_all('a', href=re.compile("/id/ukpga")):
-        results = base_url + link.get('href')
-
-    return results        
+        print(base_url + link.get('href'))
+        
 
 def consultation_search():
     url_2 = 'https://www.gov.uk/government/publications'
@@ -40,9 +38,8 @@ def consultation_search():
     print(r_2.url)
 
     for link in search_results_2.find_all('a'):#, href=re.compile("/government/consultations/")):
-        return(link.get('href'))
+        print(link.get('href'))
 
-print(legislation_search())
+legislation_search()
 
-#my_consultation_search=consultation_search()
-#print (my_consultation_search)
+consultation_search()
