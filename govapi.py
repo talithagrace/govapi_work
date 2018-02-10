@@ -1,4 +1,5 @@
 import requests, bs4, re#, html5lib, lxml
+import pandas as pd
 
 """
 http://www.legislation.gov.uk/id?title={title}&type={type}&year={year}&number={number}
@@ -34,7 +35,8 @@ def legislation_search():
 
     #search for any links which contain "/id/uksi"
     for link in search_results_1.find_all('a', href=re.compile("/id/uksi")):
-        print(base_url + link.get('href'))
+        legislation = base_url + link.get('href')
+        print(legislation)
 
 def consultation_search():
     url_2 = 'https://www.gov.uk/government/publications'
@@ -57,7 +59,17 @@ def consultation_search():
 
     #search for any links which are consultations
     for link in search_results_2.find_all('a', href=re.compile("/government/consultations")):
-        print(base_url + link.get('href'))
+        consultations = base_url + link.get('href')
+        #print(consultations)
+
+    results_table = pd.DataFrame({
+                "consultations": consultations,
+                },
+                index=[0])
+    results_table
+
+#https://stackoverflow.com/questions/26018591/display-all-search-results-when-web-scraping-with-python
+#to iterate over pages
 
 legislation_search()
 consultation_search()
