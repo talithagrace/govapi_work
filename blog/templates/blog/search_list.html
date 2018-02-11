@@ -6,8 +6,8 @@
 <table>
 
   <tr>
-    <th>legislation_1</th>
-    <th>legislation_2</th>
+    <th>legislation</th>
+    <th>consultations</th>
   </tr>
 
 <tr>
@@ -18,16 +18,25 @@
 <li><a href="{{ legs }}">{{ legs }}</a></li>
 </ul>
 
-{% endfor %}</td>
+{% endfor %}
 
-<td>
 {% for legs in legislation_2 %}
 
 <ul>
 <li><a href="{{ legs }}">{{ legs }}</a></li>
 </ul>
 
-{% endfor %}</td>
+{% endfor %}
+
+</td>
+
+<td>
+  {% for cons in consultations %}
+<ul>
+  <li><a href="{{ cons }}">{{ cons }}</a></li>
+</ul>
+{% endfor %}
+</td>
 </tr>
 </table>
 
