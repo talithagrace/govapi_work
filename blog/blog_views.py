@@ -3,17 +3,19 @@ from django.shortcuts import render
 #from blog.models import Legislation
 
 def searchlist(request):
-    #create lists
+    if request.method == 'GET':
+        search_query = request.GET.get('search_box', None)
+        #create lists
     legislation_1 = []
     legislation_2 = []
     consultations = []
 
     url_1 = 'http://www.legislation.gov.uk/id'
-    params_1 = {'title': 'immigration'}
+    params_1 = {'title': search_query}
     base_url_1 = 'http://www.legislation.gov.uk'
 
     url_2 = 'https://www.gov.uk/government/publications'
-    params_2 = {'keywords': 'immigration', 'publication_filter_option': 'consultations'}
+    params_2 = {'keywords': search_query, 'publication_filter_option': 'consultations'}
     base_url_2 = 'https://www.gov.uk'
 
 
