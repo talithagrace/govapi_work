@@ -1,25 +1,9 @@
 <html>
-<head>
-<style>
-table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-}
+{% extends 'blog/govsitebase.html' %}
+{% load staticfiles %}
 
-td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-}
-
-tr:nth-child(even) {
-    background-color: #dddddd;
-}
-</style>
-</head>
-
-<table style="width:100%">
+{% block content %}
+<table>
 
   <tr>
     <th>legislation_1</th>
@@ -30,16 +14,22 @@ tr:nth-child(even) {
 <td>
 {% for legs in legislation_1 %}
 
-<li>{{ legs }}</li>
+<ul>
+<li><a href="{{ legs }}">{{ legs }}</a></li>
+</ul>
 
 {% endfor %}</td>
 
 <td>
 {% for legs in legislation_2 %}
 
-<li>{{ legs }}</li>
+<ul>
+<li><a href="{{ legs }}">{{ legs }}</a></li>
+</ul>
 
 {% endfor %}</td>
 </tr>
 </table>
+
+{% endblock %}
 </html>

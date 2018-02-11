@@ -114,7 +114,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 #SECRET_KEY = os.environ['SECRET_KEY']
-DEBUG = False
+DEBUG = True
 
 try:
     from .local_settings import *
