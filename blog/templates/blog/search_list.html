@@ -1,15 +1,45 @@
-<p>test test test</p>
+<html>
+<head>
+<style>
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
 
-{{ legislation }}
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
 
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+</style>
+</head>
+
+<table style="width:100%">
+
+  <tr>
+    <th>legislation_1</th>
+    <th>legislation_2</th>
+  </tr>
+
+<tr>
+<td>
 {% for legs in legislation_1 %}
 
-{{ legs }}
+<li>{{ legs }}</li>
 
-{% endfor %}
+{% endfor %}</td>
 
+<td>
 {% for legs in legislation_2 %}
 
-{{ legs }}
+<li>{{ legs }}</li>
 
-{% endfor %}
+{% endfor %}</td>
+</tr>
+</table>
+</html>

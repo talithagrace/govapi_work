@@ -3,7 +3,10 @@ from django.shortcuts import render
 #from blog.models import Legislation
 
 def searchlist(request):
-    #legislation = []
+    #create lists
+    legislation_1 = []
+    legislation_2 = []
+
     url_1 = 'http://www.legislation.gov.uk/id'
     params_1 = {'title': 'immigration'}
     base_url = 'http://www.legislation.gov.uk'
@@ -15,10 +18,12 @@ def searchlist(request):
     search_results_1 = bs4.BeautifulSoup(r_1.content, 'html.parser')
 
     for link in search_results_1.find_all('a', href=re.compile("/id/ukpga")):
-        legislation_1 = base_url + link.get('href')
+        #append each link in the loop to the list created above
+        legislation_1.append(base_url + link.get('href'))
 
     for link in search_results_1.find_all('a', href=re.compile("/id/uksi")):
-        legislation_2 = base_url + link.get('href')
+        #append each link in the loop to the list created above
+        legislation_2.append(base_url + link.get('href'))
 
     context = {
         'legislation_1': legislation_1,
