@@ -18,6 +18,7 @@
 
 <tr>
 <td>
+
 {% for legs in legislation_1 %}
 
 <ul>
@@ -25,6 +26,7 @@
 </ul>
 
 {% endfor %}
+
 
 {% for legs in legislation_2 %}
 
@@ -37,11 +39,20 @@
 </td>
 
 <td>
+
+
   {% for cons in consultations %}
 <ul>
   <li><a href="{{ cons }}">{{ cons }}</a></li>
 </ul>
 {% endfor %}
+
+
+
+
+
+
+
 </td>
 </tr>
 </table>
