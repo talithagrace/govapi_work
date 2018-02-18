@@ -114,7 +114,14 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 #SECRET_KEY = os.environ['SECRET_KEY']
-DEBUG = True
+DEBUG = False
+
+SECRET_KEY = os.environ['SECRET_KEY']
+import dj_database_url
+DATABASES = { 'default': dj_database_url.config(conn_max_age=500) }
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 
 try:
     from .local_settings import *
