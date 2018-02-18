@@ -35,13 +35,15 @@ table{
   font-family: 'Marmalad', sans-serif;
   border-collapse: collapse;
   width: 100%;
+  margin:auto;
 }
 
 td, th{
   border: 1px solid #dddddd;
-  text-align: left;
+  text-align: center;
   padding: 8px;
   margin-left: 10px
+
 }
 
 ul{

@@ -8,6 +8,7 @@ def searchlist(request):
     legislation_1 = []
     legislation_2 = []
     consultations = []
+    news = []
     if search_query:
         url_1 = 'http://www.legislation.gov.uk/id'
         params_1 = {'title': search_query}
@@ -16,6 +17,10 @@ def searchlist(request):
         url_2 = 'https://www.gov.uk/government/publications'
         params_2 = {'keywords': search_query, 'publication_filter_option': 'consultations'}
         base_url_2 = 'https://www.gov.uk'
+
+        url_3 = 'http://www.gov.uk/government/announcements'
+        params_3 = {'keywords': search_query, 'from_date': '01%2F01%2F2016'}
+        base_url_3 = 'http://www.gov.uk'
 
 
         r_1 = requests.get(url_1, params_1)
@@ -41,10 +46,20 @@ def searchlist(request):
         for link in search_results_2.find_all('a', href=re.compile("/government/consultations")):
             consultations.append(base_url_2 + link.get('href'))
 
+        r_3 = requests.get(url_3, params_2)
+
+        r_3.raise_for_status()
+
+        search_results_3 = bs4.BeautifulSoup(r_3.content, 'html.parser')
+
+        for link in search_results_3.find_all('a', href=re.compile("/government/news")):
+            news.append(base_url_3 + link.get('href'))
+
     context = {
         'legislation_1': legislation_1,
         'legislation_2': legislation_2,
-        'consultations': consultations
+        'consultations': consultations,
+        'news': news
         }
     return render(request, 'blog/search_list.html', context)
 

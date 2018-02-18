@@ -12,12 +12,34 @@
 <table>
 
   <tr>
-    <th>legislation</th>
+    <th>announcements</th>
     <th>consultations</th>
+    <th>legislation</th>
   </tr>
 
 <tr>
-<td>
+  <td valign="top">
+
+  {% for stories in news %}
+  <ul>
+    <li><a href="{{ stories }}">{{ stories }}</a></li>
+  </ul>
+
+  {% endfor %}
+  </td>
+
+  <td valign="top">
+
+
+    {% for cons in consultations %}
+  <ul>
+    <li><a href="{{ cons }}">{{ cons }}</a></li>
+  </ul>
+  {% endfor %}
+
+  </td>
+
+<td valign="top">
 
 {% for legs in legislation_1 %}
 
@@ -26,7 +48,6 @@
 </ul>
 
 {% endfor %}
-
 
 {% for legs in legislation_2 %}
 
@@ -38,22 +59,7 @@
 
 </td>
 
-<td>
 
-
-  {% for cons in consultations %}
-<ul>
-  <li><a href="{{ cons }}">{{ cons }}</a></li>
-</ul>
-{% endfor %}
-
-
-
-
-
-
-
-</td>
 </tr>
 </table>
 
