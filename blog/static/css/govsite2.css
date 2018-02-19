@@ -30,7 +30,13 @@ h1{
   padding: 20px 10px;
   margin-left: 20px;
 }
-
+.open_consultations{
+  padding: 10px 10px 10px 10px;
+}
+.search_box{
+  padding: 10px 10px 10px 10px;
+  margin-bottom: 20px;
+}
 table{
   font-family: 'Marmalad', sans-serif;
   border-collapse: collapse;

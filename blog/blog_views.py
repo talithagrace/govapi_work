@@ -2,6 +2,23 @@ import requests, bs4, re
 from django.shortcuts import render
 #from blog.models import Legislation
 
+#def openconsultations(request):
+#    open_consultations = []
+#    url = 'http://www.gov.uk/government/publications'
+#    params = {'publication_filter_option': 'open-consultations'}
+#    base_url = 'https://www.gov.uk'
+#
+#    r = requests.get(url, params)
+#    r.raise_for_status()
+
+#    search_results = bs4.BeautifulSoup(r.content, 'html.parser')
+
+#    for link in search_results.find_all('a', href=re.compile("/government/consultations")):
+#        open_consultations.append(base_url + link.get('href'))
+
+#    return render(request, 'blog/search_list.html', {'open_consultations': open_consultations})
+
+
 def searchlist(request):
     search_query = request.GET.get('search_box', None)
     #create lists
@@ -9,6 +26,19 @@ def searchlist(request):
     legislation_2 = []
     consultations = []
     news = []
+    open_consultations = []
+    url = 'http://www.gov.uk/government/publications'
+    params = {'publication_filter_option': 'open-consultations'}
+    base_url = 'https://www.gov.uk'
+
+    r = requests.get(url, params)
+    r.raise_for_status()
+
+    search_results = bs4.BeautifulSoup(r.content, 'html.parser')
+
+    for link in search_results.find_all('a', href=re.compile("/government/consultations")):
+        open_consultations.append(base_url + link.get('href'))
+
     if search_query:
         url_1 = 'http://www.legislation.gov.uk/id'
         params_1 = {'title': search_query}
@@ -59,7 +89,8 @@ def searchlist(request):
         'legislation_1': legislation_1,
         'legislation_2': legislation_2,
         'consultations': consultations,
-        'news': news
+        'news': news,
+        'open_consultations': open_consultations
         }
     return render(request, 'blog/search_list.html', context)
 
