@@ -5,11 +5,14 @@
 {% block content %}
 
 <div class="open_consultations">
+  <h1><span style="font-sixe:20px; color:#000000; cursor:pointer" onclick="myFunction()"> &#10010;</span><a>List of Open Consultations</a></h1>
+
+<ul id="openconsultationslist" style="display:none;">
   {% for open_cons in open_consultations %}
-<ul>
   <li><a href="{{ open_cons }}">{{ open_cons }}</a></li>
-</ul>
 {% endfor %}
+</ul>
+
 </div> <!--open-consultations-->
 
 <div class="search_box">
@@ -71,6 +74,18 @@
 
 </tr>
 </table>
+
+<script>
+
+function myFunction() {
+  var x = document.getElementById('openconsultationslist');
+  if (x.style.display === 'none') {
+      x.style.display = 'block';
+  } else {
+      x.style.display = 'none';
+  }
+}
+</script>
 
 {% endblock %}
 </html>

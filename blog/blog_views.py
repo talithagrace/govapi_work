@@ -32,7 +32,7 @@ def searchlist(request):
     base_url = 'https://www.gov.uk'
 
     r = requests.get(url, params)
-    r.raise_for_status()
+    #r.raise_for_status()
 
     search_results = bs4.BeautifulSoup(r.content, 'html.parser')
 
@@ -55,7 +55,7 @@ def searchlist(request):
 
         r_1 = requests.get(url_1, params_1)
 
-        r_1.raise_for_status()
+        #r_1.raise_for_status()
 
         search_results_1 = bs4.BeautifulSoup(r_1.content, 'html.parser')
 
@@ -69,7 +69,7 @@ def searchlist(request):
 
         r_2 = requests.get(url_2, params_2)
 
-        r_2.raise_for_status()
+        #r_2.raise_for_status()
 
         search_results_2 = bs4.BeautifulSoup(r_2.content, 'html.parser')
 
@@ -78,7 +78,7 @@ def searchlist(request):
 
         r_3 = requests.get(url_3, params_2)
 
-        r_3.raise_for_status()
+        #r_3.raise_for_status()
 
         search_results_3 = bs4.BeautifulSoup(r_3.content, 'html.parser')
 
