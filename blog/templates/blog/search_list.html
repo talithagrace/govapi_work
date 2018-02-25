@@ -3,9 +3,9 @@
 {% load staticfiles %}
 
 {% block content %}
-
+<body>
 <div class="open_consultations">
-  <h1><span style="font-sixe:20px; color:#000000; cursor:pointer" onclick="myFunction()"> &#10010;</span><a>List of Open Consultations</a></h1>
+  <h1><a>List of Open Consultations</a><span style="color:#000000; cursor:pointer" onclick="myFunction()"> &#10010;</span></h1>
 
 <ul id="openconsultationslist" style="display:none;">
   {% for open_cons in open_consultations %}
@@ -25,7 +25,7 @@
 <table>
 
   <tr>
-    <th>announcements</th>
+    <th>announcements (since January 2016)</th>
     <th>consultations</th>
     <th>legislation</th>
   </tr>
@@ -74,7 +74,7 @@
 
 </tr>
 </table>
-
+</body>
 <script>
 
 function myFunction() {
