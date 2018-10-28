@@ -1,5 +1,6 @@
 import requests, bs4, re
 from django.shortcuts import render
+from time import sleep
 
 def searchlist(request):
     search_query = request.GET.get('search_box', None)
@@ -17,9 +18,21 @@ def searchlist(request):
     #r.raise_for_status()
 
     search_results = bs4.BeautifulSoup(r.content, 'html.parser')
+    pages = int(search_results.find('span', {"class": "count"}).text)//40
+    if int(search_results.find('span', {"class": "count"}).text)%40 > 0:
+        no_pages = pages + 2
 
-    for link in search_results.find_all('a', href=re.compile("/government/consultations")):
-        open_consultations.append(base_url + link.get('href'))
+    for page in range(1, no_pages):
+        params_a = {'publication_filter_option': 'open-consultations', 'page': page}
+        r_a = requests.get(url, params_a)
+        sleep(0.2)
+        search_results_a = bs4.BeautifulSoup(r_a.content, 'html.parser')
+
+        for link in search_results_a.find_all('a', href=re.compile("/government/consultations")):
+            #con_text = a
+            #a, b, c, d = con_text.split('/')
+            open_consultations.append(base_url + link.get('href'))
+            #ope_co.split("ns/")
 
     if search_query:
         url_1 = 'http://www.legislation.gov.uk/id'
