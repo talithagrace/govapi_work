@@ -6,3 +6,10 @@ class Opencons(models.Model):
 
     def __str__(self):
         return self.title
+
+class Legislation(models.Model):
+    hyperlink = models.URLField()
+    title = models.CharField(max_length=300)
+
+    def __str__(self):
+        return self.title

@@ -56,18 +56,10 @@
 
 <td valign="top">
 
-{% for legs in legislation_1 %}
+{% for leg in legs %}
 
 <ul>
-<li><a href="{{ legs }}">{{ legs }}</a></li>
-</ul>
-
-{% endfor %}
-
-{% for legs in legislation_2 %}
-
-<ul>
-<li><a href="{{ legs }}">{{ legs }}</a></li>
+<li><a href="{{ leg.hyperlink }}">{{ leg.title }}</a></li>
 </ul>
 
 {% endfor %}

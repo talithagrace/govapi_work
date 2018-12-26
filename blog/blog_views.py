@@ -1,13 +1,13 @@
 import requests, bs4, re
 from django.shortcuts import render
 from time import sleep
-from blog.models import Opencons
+from blog.models import Opencons, Legislation
 
 def searchlist(request):
     search_query = request.GET.get('search_box', None)
     #create lists
-    legislation_1 = []
-    legislation_2 = []
+    legs = Legislation.objects.all()
+    legs.delete()
     consultations = []
     news = []
     url = 'http://www.gov.uk/government/publications'
@@ -60,11 +60,19 @@ def searchlist(request):
 
         for link in search_results_1.find_all('a', href=re.compile("/id/ukpga")):
             #append each link in the loop to the list created above
-            legislation_1.append(base_url_1 + link.get('href'))
+            #legislation_1.append(base_url_1 + link.get('href'))
+            hyper_link_1 = (base_url_1 + link.get('href'))
+            title_1 = link.text
+            leg = Legislation.objects.get_or_create(hyperlink=hyper_link_1, title=title_1)
+
+
 
         for link in search_results_1.find_all('a', href=re.compile("/id/uksi")):
             #append each link in the loop to the list created above
             legislation_2.append(base_url_1 + link.get('href'))
+            hyper_link_2 = (base_url_1 + link.get('href'))
+            title_2 = link.text
+            leg_2 = Legislation.objects.get_or_create(hyperlink=hyper_link_2, title=title_2)
 
         r_2 = requests.get(url_2, params_2)
 
@@ -96,11 +104,10 @@ def searchlist(request):
             news.append(base_url_3 + link.get('href'))
 
     context = {
-        'legislation_1': legislation_1,
-        'legislation_2': legislation_2,
         'consultations': consultations,
         'news': news,
-        'open_cons': open_cons
+        'open_cons': open_cons,
+        'legs': legs
         }
     return render(request, 'blog/search_list.html', context)
 
