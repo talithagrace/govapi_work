@@ -72,7 +72,9 @@ def print_page_no():
         
         for link in search_results_3.find_all('a', href=re.compile("/government/consultations")):
             consultations = base_url + link.get('href')
-            print(consultations)
+            con_text = link.text
+            print(con_text)
+            #print(consultations)
             
         
     

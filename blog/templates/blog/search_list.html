@@ -8,10 +8,12 @@
   <h1><a>List of Open Consultations</a><span style="color:#000000; cursor:pointer" onclick="myFunction()"> &#10010;</span></h1>
 
 <ul id="openconsultationslist" style="display:none;">
-  {% for open_cons in open_consultations %}
-<li><a href="{{ open_cons }}">{{ open_cons }}</a></li>
-  <!-- <li><a href="{{ open_cons }}">{{ con_text }}</a></li>-->
+{% for open_con in open_cons %}
+  <li><a href="{{ open_con.hyperlink }}">
+    {{ open_con.title }}
+  </a></li>
 {% endfor %}
+
 </ul>
 
 </div> <!--open-consultations-->
