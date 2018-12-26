@@ -1,15 +1,17 @@
 import requests, bs4, re
 from django.shortcuts import render
 from time import sleep
-from blog.models import Opencons, Legislation
+from blog.models import Opencons, Legislation, Consultations, News
 
 def searchlist(request):
     search_query = request.GET.get('search_box', None)
     #create lists
     legs = Legislation.objects.all()
     legs.delete()
-    consultations = []
-    news = []
+    consultations = Consultations.objects.all()
+    consultations.delete()
+    news = News.objects.all()
+    news.delete()
     url = 'http://www.gov.uk/government/publications'
     params = {'publication_filter_option': 'open-consultations'}
     base_url = 'https://www.gov.uk'
@@ -69,10 +71,9 @@ def searchlist(request):
 
         for link in search_results_1.find_all('a', href=re.compile("/id/uksi")):
             #append each link in the loop to the list created above
-            legislation_2.append(base_url_1 + link.get('href'))
-            hyper_link_2 = (base_url_1 + link.get('href'))
-            title_2 = link.text
-            leg_2 = Legislation.objects.get_or_create(hyperlink=hyper_link_2, title=title_2)
+            hyper_link_1a = (base_url_1 + link.get('href'))
+            title_1a = link.text
+            leg_1a = Legislation.objects.get_or_create(hyperlink=hyper_link_1a, title=title_1a)
 
         r_2 = requests.get(url_2, params_2)
 
@@ -92,7 +93,9 @@ def searchlist(request):
             search_results_c = bs4.BeautifulSoup(r_c.content, 'html.parser')
 
             for link in search_results_c.find_all('a', href=re.compile("/government/consultations")):
-                consultations.append(base_url_2 + link.get('href'))
+                hyper_link_2 = (base_url_2 + link.get('href'))
+                title_2 = link.text
+                consultation = Consultations.objects.get_or_create(hyperlink=hyper_link_2, title=title_2)
 
         r_3 = requests.get(url_3, params_2)
 
@@ -101,7 +104,9 @@ def searchlist(request):
         search_results_3 = bs4.BeautifulSoup(r_3.content, 'html.parser')
 
         for link in search_results_3.find_all('a', href=re.compile("/government/news")):
-            news.append(base_url_3 + link.get('href'))
+            hyper_link_3 = (base_url_3 + link.get('href'))
+            title_3 = link.text
+            news_item = News.objects.get_or_create(hyperlink=hyper_link_3, title=title_3)
 
     context = {
         'consultations': consultations,

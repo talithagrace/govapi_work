@@ -38,7 +38,7 @@
 
   {% for stories in news %}
   <ul>
-    <li><a href="{{ stories }}">{{ stories }}</a></li>
+    <li><a href="{{ stories.hyperlink }}">{{ stories.title }}</a></li>
   </ul>
 
   {% endfor %}
@@ -46,9 +46,9 @@
 
   <td valign="top">
 
-    {% for cons in consultations %}
+    {% for con in consultations %}
   <ul>
-    <li><a href="{{ cons }}">{{ cons }}</a></li>
+    <li><a href="{{ con.hyperlink }}">{{ con.title }}</a></li>
   </ul>
   {% endfor %}
 
