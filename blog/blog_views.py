@@ -1,11 +1,13 @@
 import requests, bs4, re
 from django.shortcuts import render
 from time import sleep
+import datetime
+from django.utils import timezone
 from blog.models import Opencons, Legislation, Consultations, News
 
 def searchlist(request):
     search_query = request.GET.get('search_box', None)
-    #create lists
+    #state models to be updated
     legs = Legislation.objects.all()
     legs.delete()
     consultations = Consultations.objects.all()
@@ -22,9 +24,12 @@ def searchlist(request):
     search_results = bs4.BeautifulSoup(r.content, 'html.parser')
     #find the number of pages the search results are displayed across
     #40 is the number of results per page
-    pages = int(search_results.find('span', {"class": "count"}).text)//40
-    if int(search_results.find('span', {"class": "count"}).text)%40 > 0:
+    no_cons = search_results.find('span', {"class": "count"}).text
+    pages = int(no_cons)//40
+    if int(search_results.find('span', {"class": "count"}).text)%40 >= 0:
         no_pages = pages + 2
+    else:
+        no_pages = pages
 
     #iterate through each page and scrape
     for page in range(1, no_pages):
@@ -50,7 +55,12 @@ def searchlist(request):
         base_url_2 = 'https://www.gov.uk'
 
         url_3 = 'http://www.gov.uk/government/announcements'
-        params_3 = {'keywords': search_query, 'from_date': '01%2F01%2F2016'}
+        now = timezone.now()
+        two_mnths = datetime.timedelta(days=61)
+        fromdate = now - two_mnths
+        #params_3 = {'keywords': search_query, 'from_date': '01%2F01%2F2016'}
+        params_3 = {'keywords': search_query, 'from_date': '31\\%\\2F10\\%\\2F2018'}
+        #from_date='31%2F10%2F2018'
         base_url_3 = 'http://www.gov.uk'
 
 
@@ -109,6 +119,7 @@ def searchlist(request):
             news_item = News.objects.get_or_create(hyperlink=hyper_link_3, title=title_3)
 
     context = {
+        'no_cons': no_cons,
         'consultations': consultations,
         'news': news,
         'open_cons': open_cons,

@@ -23,8 +23,13 @@
 
 h1{
   font-family: 'Exo 2', sans-serif;
+  color: #737373;
 }
 
+h2{
+  font-family: 'Exo 2', sans-serif;
+
+}
 .content_container{
   margin-right: 20px;
   padding: 20px 10px;
@@ -48,7 +53,8 @@ td, th{
   border: 1px solid #dddddd;
   text-align: center;
   padding: 8px;
-  margin-left: 10px
+  margin-left: 10px;
+  font-size: 20;
 
 }
 
@@ -63,6 +69,7 @@ ul{
 li{
   margin-left: 0px;
   text-align: left;
+  font-size: 18;
 
 }
 p{
