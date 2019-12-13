@@ -98,15 +98,30 @@ def searchlist(request):
 
         search_results_2 = bs4.BeautifulSoup(r_2.content, 'html.parser')
 
-        pages_2 = int(search_results_2.find('span', {"class": "count"}).text)//40
-        if int(search_results_2.find('span', {"class": "count"}).text)%40 > 0:
+        #pages_2 = int(search_results_2.find('h2', {"class": "result-region-header__counter"}).text)//20
+        no_results_txt = search_results_2.find('h2', {"class": "result-region-header__counter"}).text
+        no_results = no_results_txt.strip()
+        no_results_int = int(no_results[:2])
+        pages_2 = int(no_results_int)//20
+        if no_results_int%20 > 0:
             no_pages_2 = pages_2 + 2
 
-        for page in range(1, no_pages_2):
+        if pages_2 > 1:
+
+            for page in range(1, no_pages_2):
+                params_c = {'keywords': search_query, 'content_store_document_type': 'open_consultations'}
+                r_c = requests.get(url_2, params_c)
+                sleep(0.2)
+
+                search_results_c = bs4.BeautifulSoup(r_c.content, 'html.parser')
+
+                for link in search_results_c.find_all('a', href=re.compile("/government/consultations")):
+                    hyper_link_2 = (base_url_2 + link.get('href'))
+                    title_2 = link.text
+                    consultation = Consultations.objects.get_or_create(hyperlink=hyper_link_2, title=title_2)
+        else:
             params_c = {'keywords': search_query, 'content_store_document_type': 'open_consultations'}
             r_c = requests.get(url_2, params_c)
-            sleep(0.2)
-
             search_results_c = bs4.BeautifulSoup(r_c.content, 'html.parser')
 
             for link in search_results_c.find_all('a', href=re.compile("/government/consultations")):
