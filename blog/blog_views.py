@@ -5,17 +5,22 @@ import datetime
 from django.utils import timezone
 from blog.models import Opencons, Legislation, Consultations, News
 
+"""https://www.gov.uk/search/policy-papers-and-consultations?content_store_document_type=open_consultations
+"""
+
 def searchlist(request):
     search_query = request.GET.get('search_box', None)
     #state models to be updated
+    open_cons = Opencons.objects.all()
+    open_cons.delete()
     legs = Legislation.objects.all()
     legs.delete()
     consultations = Consultations.objects.all()
     consultations.delete()
     news = News.objects.all()
     news.delete()
-    url = 'http://www.gov.uk/government/publications'
-    params = {'publication_filter_option': 'open-consultations'}
+    url = 'https://www.gov.uk/search/policy-papers-and-consultations'
+    params = {'content_store_document_type': 'open_consultations'}
     base_url = 'https://www.gov.uk'
 
     r = requests.get(url, params)
@@ -23,17 +28,19 @@ def searchlist(request):
 
     search_results = bs4.BeautifulSoup(r.content, 'html.parser')
     #find the number of pages the search results are displayed across
-    #40 is the number of results per page
-    no_cons = search_results.find('span', {"class": "count"}).text
-    pages = int(no_cons)//40
-    if int(search_results.find('span', {"class": "count"}).text)%40 >= 0:
+    #20 is the number of results per page
+    no_cons_text = search_results.find('h2', {"class": "result-region-header__counter"}).text
+    no_cons_strip = no_cons_text.strip()
+    no_cons = int(no_cons_strip[:2])
+    pages = int(no_cons)//20
+    if no_cons%20 >= 0:
         no_pages = pages + 2
     else:
         no_pages = pages
 
     #iterate through each page and scrape
     for page in range(1, no_pages):
-        params_a = {'publication_filter_option': 'open-consultations', 'page': page}
+        params_a = {'content_store_document_type': 'open_consultations', 'page': page}
         r_a = requests.get(url, params_a)
         #sleep so that multiple requests are not made simultaneously
         sleep(0.2)
@@ -50,11 +57,11 @@ def searchlist(request):
         params_1 = {'title': search_query}
         base_url_1 = 'http://www.legislation.gov.uk'
 
-        url_2 = 'https://www.gov.uk/government/publications'
-        params_2 = {'keywords': search_query, 'publication_filter_option': 'consultations'}
+        url_2 = 'https://www.gov.uk/search/policy-papers-and-consultations'
+        params_2 = {'keywords': search_query, 'content_store_document_type': 'open_consultations'}
         base_url_2 = 'https://www.gov.uk'
 
-        url_3 = 'http://www.gov.uk/government/announcements'
+        url_3 = 'https://www.gov.uk/search/news-and-communications'
         now = timezone.now()
         two_mnths = datetime.timedelta(days=61)
         fromdate = now - two_mnths
@@ -96,7 +103,7 @@ def searchlist(request):
             no_pages_2 = pages_2 + 2
 
         for page in range(1, no_pages_2):
-            params_c = {'keywords': search_query, 'publication_filter_option': 'consultations'}
+            params_c = {'keywords': search_query, 'content_store_document_type': 'open_consultations'}
             r_c = requests.get(url_2, params_c)
             sleep(0.2)
 
